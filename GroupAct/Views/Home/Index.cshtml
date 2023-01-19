@@ -1,0 +1,100 @@
+﻿@using GroupAct.Models;
+
+
+@model List<StudentModel>
+
+@{
+    ViewBag.Title = "Home Page";
+}
+<div>
+    <br />
+    <br />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        i {
+            position: relative;
+            display: inline-block;
+           
+        }
+
+            i .tooltiptext {
+                visibility: hidden;
+                width: 90px;
+                background-color: darkgray;
+                color: black;
+                text-align: center;
+                border-radius: 6px;
+                padding: 5px 0;
+                /* Position the tooltip */
+                position: absolute;
+                z-index: 1;
+            }
+
+            i:hover .tooltiptext {
+                visibility: visible;
+            }
+    </style>
+    @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+    {
+        @Html.TextBox("SearchBox", "", new { @class = "form-control", placeholder = "StudentID or Address" }) <br /> <input type="submit"  value="Search" class="btn btn-primary">
+    }
+
+    <br />
+    <br />
+    <table class="table">
+        <tr>
+
+            <th>
+                First Name
+            </th>
+            <th>
+                Last Name
+            </th>
+            <th>
+                Address
+            </th>
+            <th>
+                Section Name
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+        @if (Model != null && Model.Count > 0)
+        {
+            foreach (var student in Model)
+            {
+                <tr>
+                    <td>
+                        @student.FirstName
+                    </td>
+                    <td>
+                        @student.LastName
+                    </td>
+                    <td>
+                        @student.Address
+                    </td>
+                    <td>
+                        @student.SectionName.SectionName
+                    </td>
+
+                    <td>
+                        <a href="@Url.Action("Update", "Home", new { studentID = @student.StudentID })"><i class="fa fa-edit"> <span class="tooltiptext">Update</span></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="@Url.Action("Delete", "Home", new { studentID = @student.StudentID})" onclick="return confirm('Are you sure you want to Delete @student.FirstName @student.LastName?')"><i class="fa fa-trash"> <span class="tooltiptext">Delete</span></i></a>
+                    </td>
+
+                </tr>
+            }
+        }
+    </table>
+
+</div>
+<script>
+ $(document).ready(function(){
+  $("#DeleteButton").on("click",function()
+  {
+   alert('Your Message');
+  });
+
+});
+</script>
